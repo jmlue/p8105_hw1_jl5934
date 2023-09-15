@@ -26,20 +26,9 @@ scatter_df <- tibble(
   y = early_january_weather$temp
 ) 
 
-ggplot(scatter_df, aes(color = early_january_weather$humid)) + geom_point()
+ggplot(scatter_df, aes(x = x, y = y, color = early_january_weather$humid)) + geom_point()
 ```
 
 ```{r output plot}
 ggsave("scatterplot_problem1.pdf", height = 4, width = 6)
 ```
-
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
