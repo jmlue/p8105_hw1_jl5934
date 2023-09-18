@@ -1,15 +1,14 @@
 ---
 title: "p8105_hw1_jl5934"
 author: "Jesus Luevano"
-date: "2023-09-17"
+date: "2023-09-18"
 output: github_document
 ---
 
-```{r setup, echo = FALSE, message = FALSE}
+```{r setup}
 library(moderndive)
 library(tibble)
 library(ggplot2)
-library(tibble)
 library(tidyverse)
 
 data("early_january_weather")
@@ -23,11 +22,13 @@ The variables of the dataset are `r names(early_january_weather)`.
 
 The size of the dataset is `r nrow(early_january_weather)` rows by `r ncol(early_january_weather)` columns.
 
-The samples are all originating from 'EWR'. during the month of January 2013. The days range from 1-15, and hours from 0-23 to represent a 24 hour day.
+The samples are all originating from the site EWR, during the month of January 2013. The days range from 1-15, suggesting they were collected the first half of the month. The samples hours from 0-23 to represent a 24 hour day.
 
 The mean temperature of the 385 observations in the dataset is `r mean(pull(early_january_weather, temp))` degrees Celsius, with a standard deviation of `r sd(pull(early_january_weather, temp))` degrees Celsius.
 
-In addition, the mean dew point of the dataset is `r mean(pull(early_january_weather, dewp))`, mean humidity of the dataset is `r mean(pull(early_january_weather, humid))`, mean wind speed is `r mean(pull(early_january_weather, wind_speed))`, mean precipitation is `r mean(pull(early_january_weather, precip))`, and mean visbility was `r mean(pull(early_january_weather, visib))`.
+In addition, the mean dew point of the dataset is `r mean(pull(early_january_weather, dewp))`, mean humidity of the dataset is `r mean(pull(early_january_weather, humid))`, mean wind speed is `r mean(pull(early_january_weather, wind_speed))`, mean precipitation is `r mean(pull(early_january_weather, precip))`, and mean visbility was `r mean(pull(early_january_weather, visib))`. 
+
+Because there were 'NA' values in both wind gust and pressure, they means could not be calculate without dealing with those missing values.
 
 
 ```{r scatterplot}
@@ -36,7 +37,8 @@ scatter_df <- tibble(
   y = pull(early_january_weather, temp)
 ) 
 
-ggplot(scatter_df, aes(x = x, y = y, color = early_january_weather$humid)) + geom_point()
+ggplot(scatter_df, aes(x = x, y = y, color = pull(early_january_weather, humid))) + geom_point() + 
+  xlab("Hour sample taken") + ylab("Temperature (C)") + labs(title="Temperature at sample Hour", color = "Humidity")
 ```
 
 ```{r output plot}
@@ -57,7 +59,7 @@ df_2 = tibble(
 )
 ```
 
-## Means of the dataframe
+## Means values from the dataframe
 
 The mean of the random sample of normal distribution is `r mean(pull(df_2, norm_sample))`.
 
@@ -68,12 +70,12 @@ The mean of the character vector is NA when attempted via "r mean(pull(df_2, cha
 The mean of the factor vector is NA when attempted via "r mean(pull(df_2, factor))"
 
 
-## Chaging data type
+## Changing data type
 
 ```{r conversion, eval = FALSE}
-df_2$char = as.numeric(as.character(df_2$char))
+df_2$char = as.numeric(as.character(pull(df_2, char)))
 
-df_2$factor =  as.numeric(as.factor(df_2$factor))
+df_2$factor =  as.numeric(as.factor(pull(df_2, factor)))
 ```
 
 When we try to convert the character vector into a numeric one, it is unable to and coerces them all to NA. However when we attempt it with the factor level it is able to convert it to numeric, assigning values from 1-3 based on the factor level it was originally. 
