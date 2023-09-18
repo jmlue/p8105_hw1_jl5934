@@ -1,11 +1,11 @@
 ---
 title: "p8105_hw1_jl5934"
 author: "Jesus Luevano"
-date: "2023-09-15"
+date: "2023-09-17"
 output: github_document
 ---
 
-```{r setup, echo = FALSE}
+```{r setup, echo = FALSE, message = FALSE}
 library(moderndive)
 library(tibble)
 library(ggplot2)
@@ -23,7 +23,12 @@ The variables of the dataset are `r names(early_january_weather)`.
 
 The size of the dataset is `r nrow(early_january_weather)` rows by `r ncol(early_january_weather)` columns.
 
-The mean temperature of the 385 observations in the dataset is `r mean(pull(early_january_weather, temp))` degrees Celsius. 
+The samples are all originating from 'EWR'. during the month of January 2013. The days range from 1-15, and hours from 0-23 to represent a 24 hour day.
+
+The mean temperature of the 385 observations in the dataset is `r mean(pull(early_january_weather, temp))` degrees Celsius, with a standard deviation of `r sd(pull(early_january_weather, temp))` degrees Celsius.
+
+In addition, the mean dew point of the dataset is `r mean(pull(early_january_weather, dewp))`, mean humidity of the dataset is `r mean(pull(early_january_weather, humid))`, mean wind speed is `r mean(pull(early_january_weather, wind_speed))`, mean precipitation is `r mean(pull(early_january_weather, precip))`, and mean visbility was `r mean(pull(early_january_weather, visib))`.
+
 
 ```{r scatterplot}
 scatter_df <- tibble(
