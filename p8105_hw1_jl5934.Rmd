@@ -1,22 +1,30 @@
 ---
 title: "p8105_hw1_jl5934"
 author: "Jesus Luevano"
+uni: "jl5934"
 date: "2023-09-18"
 output: github_document
 ---
 
 ```{r setup}
 library(moderndive)
-library(tibble)
-library(ggplot2)
 library(tidyverse)
-
-data("early_january_weather")
 ```
 
 # Problem 1
 
+## Access the dataset
+
+We will load the 'early_january_weather' dataset. 
+
+```{r}
+data("early_january_weather")
+```
+
+
 ## Describing the Dataset
+
+We will then run commands to evaluate the variables and some basic statistics on them.
 
 The variables of the dataset are `r names(early_january_weather)`.
 
@@ -28,8 +36,11 @@ The mean temperature of the 385 observations in the dataset is `r mean(pull(earl
 
 In addition, the mean dew point of the dataset is `r mean(pull(early_january_weather, dewp))`, mean humidity of the dataset is `r mean(pull(early_january_weather, humid))`, mean wind speed is `r mean(pull(early_january_weather, wind_speed))`, mean precipitation is `r mean(pull(early_january_weather, precip))`, and mean visbility was `r mean(pull(early_january_weather, visib))`. 
 
-Because there were 'NA' values in both wind gust and pressure, they means could not be calculate without dealing with those missing values.
+Because there were 'NA' values in both wind gust, wind direction, and pressure, the means could not be calculated without dealing with those missing values.
 
+## Making the scatterplot
+
+We will make a scatterplot evaluating the temperature (C) by time hour it was collected. We will also color code by humidity.
 
 ```{r scatterplot}
 scatter_df <- tibble(
@@ -40,6 +51,10 @@ scatter_df <- tibble(
 ggplot(scatter_df, aes(x = x, y = y, color = pull(early_january_weather, humid))) + geom_point() + 
   xlab("Hour sample taken") + ylab("Temperature (C)") + labs(title="Temperature at sample Hour", color = "Humidity")
 ```
+
+Looking at the scatterplot there is a general increase in temperature as time hour it was taken increases, but it is not a pure linear relationship as it somewhat oscillates. In addition, when color-coded by humidity we see that the humidity also seems to increase with the time hour that the sample was taken.
+
+## Saving the plot.
 
 ```{r output plot}
 ggsave("scatterplot_problem1.pdf", height = 4, width = 6)
