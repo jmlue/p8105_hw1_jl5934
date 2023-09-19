@@ -6,6 +6,8 @@ date: "2023-09-18"
 output: github_document
 ---
 
+We will pull in the libraries we will use for this homework #1.
+
 ```{r setup}
 library(moderndive)
 library(tidyverse)
@@ -26,21 +28,23 @@ data("early_january_weather")
 
 We will then run commands to evaluate the variables and some basic statistics on them.
 
-The variables of the dataset are `r names(early_january_weather)`.
+* The variables of the dataset are `r names(early_january_weather)`.
 
-The size of the dataset is `r nrow(early_january_weather)` rows by `r ncol(early_january_weather)` columns.
+* The size of the dataset is `r nrow(early_january_weather)` rows by `r ncol(early_january_weather)` columns.
 
-The samples are all originating from the site EWR, during the month of January 2013. The days range from 1-15, suggesting they were collected the first half of the month. The samples hours from 0-23 to represent a 24 hour day.
+* The samples are all originating from the site `r unique(pull(early_january_weather, origin))`, during the month of `r unique(pull(early_january_weather, month))` `r unique(pull(early_january_weather, year))`. 
+  * The days range from `r range(pull(early_january_weather, day))`, suggesting they were collected the first half of the month. 
+  * The samples hours from `r range(pull(early_january_weather, hour))` to represent a 24 hour day.
 
-The mean temperature of the 385 observations in the dataset is `r mean(pull(early_january_weather, temp))` degrees Celsius, with a standard deviation of `r sd(pull(early_january_weather, temp))` degrees Celsius.
+* The mean temperature of the 385 observations in the dataset is `r mean(pull(early_january_weather, temp))` degrees Celsius, with a standard deviation of `r sd(pull(early_january_weather, temp))` degrees Celsius.
 
-In addition, the mean dew point of the dataset is `r mean(pull(early_january_weather, dewp))`, mean humidity of the dataset is `r mean(pull(early_january_weather, humid))`, mean wind speed is `r mean(pull(early_january_weather, wind_speed))`, mean precipitation is `r mean(pull(early_january_weather, precip))`, and mean visbility was `r mean(pull(early_january_weather, visib))`. 
+  * In addition, the mean dew point of the dataset is `r mean(pull(early_january_weather, dewp))`, mean humidity of the dataset is `r mean(pull(early_january_weather, humid))`, mean wind speed is `r mean(pull(early_january_weather, wind_speed))`, mean precipitation is `r mean(pull(early_january_weather, precip))`, and mean visbility was `r mean(pull(early_january_weather, visib))`. 
 
-Because there were 'NA' values in both wind gust, wind direction, and pressure, the means could not be calculated without dealing with those missing values.
+  * Because there were 'NA' values in the three variables wind gust, wind direction, and pressure, the means could not be calculated without dealing with those missing values.
 
 ## Making the scatterplot
 
-We will make a scatterplot evaluating the temperature (C) by time hour it was collected. We will also color code by humidity.
+We will make a scatterplot evaluating the temperature (Celsius) by time hour it was collected. We will also color code by humidity.
 
 ```{r scatterplot}
 scatter_df <- tibble(
@@ -65,6 +69,8 @@ ggsave("scatterplot_problem1.pdf", height = 4, width = 6)
 
 ## Constructing the dataframe
 
+We will construct a dataframe of size 10, with four variables of different data types: numeric, logical, character, and factor. We will set a seed to ensure consistent output. 
+
 ```{r}
 set.seed(817)
 
@@ -78,21 +84,24 @@ df_2 = tibble(
 
 ## Means values from the dataframe
 
-The mean of the random sample of normal distribution is `r mean(pull(df_2, norm_sample))`.
+* The mean of the random sample of normal distribution is `r mean(pull(df_2, norm_sample))`.
 
-The mean of the logical vector is `r mean(pull(df_2, norm_sample_pos))`. However, this is just interpreting a binary variable so it is not a true mean.
+* The mean of the logical vector is `r mean(pull(df_2, norm_sample_pos))`. However, this is just interpreting a binary variable so it is not a true mean.
 
-The mean of the character vector is NA when attempted via `r mean(pull(df_2, char))`.
+* The mean of the character vector is NA when attempted via `r mean(pull(df_2, char))`.
 
-The mean of the factor vector is NA when attempted via `r mean(pull(df_2, factor))`.
+* The mean of the factor vector is NA when attempted via `r mean(pull(df_2, factor))`.
 
 
 ## Changing data type
 
-```{r conversion, eval = FALSE}
-df_2$char = as.numeric(as.character(pull(df_2, char)))
+```{r conversion, warning = FALSE}
+df_2$norm_sample_pos = as.numeric(pull(df_2, norm_sample_pos))
 
-df_2$factor =  as.numeric(as.factor(pull(df_2, factor)))
+df_2$char = as.numeric(pull(df_2, char))
+
+df_2$factor =  as.numeric(pull(df_2, factor))
 ```
 
-When we try to convert the character vector into a numeric one, it is unable to and coerces them all to NA. However when we attempt it with the factor level it is able to convert it to numeric, assigning values from 1-3 based on the factor level it was originally. 
+When we try to convert the binary logical vector into a numeric one it is able and changes from binary to numeric, but all the values are either zero or one. 
+* When we try to convert the character vector into a numeric one, it is unable to and coerces them all to NA. However when we attempt it with the factor level it is able to convert it to numeric, assigning values from 1-3 based on the factor level it was originally. 
