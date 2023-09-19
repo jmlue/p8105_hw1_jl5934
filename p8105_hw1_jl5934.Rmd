@@ -66,8 +66,10 @@ ggsave("scatterplot_problem1.pdf", height = 4, width = 6)
 ## Constructing the dataframe
 
 ```{r}
+set.seed(817)
+
 df_2 = tibble(
-  norm_sample = rnorm(10, mean = 1),
+  norm_sample = rnorm(10, mean = 1), 
   norm_sample_pos = norm_sample > 0,
   char = "helloworld",
   factor = factor(c("first", "second", "third", "first", "second", "third", "first", "second", "third", "first"), levels = c("first", "second", "third"))
@@ -80,9 +82,9 @@ The mean of the random sample of normal distribution is `r mean(pull(df_2, norm_
 
 The mean of the logical vector is `r mean(pull(df_2, norm_sample_pos))`.
 
-The mean of the character vector is NA when attempted via "r mean(pull(df_2, char))"
+The mean of the character vector is NA when attempted via `r mean(pull(df_2, char))`.
 
-The mean of the factor vector is NA when attempted via "r mean(pull(df_2, factor))"
+The mean of the factor vector is NA when attempted via `r mean(pull(df_2, factor))`.
 
 
 ## Changing data type
