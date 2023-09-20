@@ -74,7 +74,7 @@ We will construct a dataframe of size 10, with four variables of different data 
 ```{r}
 set.seed(817)
 
-df_2 = tibble(
+df_problem_2 = tibble(
   norm_sample = rnorm(10, mean = 1), 
   norm_sample_pos = norm_sample > 0,
   char = "helloworld",
@@ -84,23 +84,23 @@ df_2 = tibble(
 
 ## Means values from the dataframe
 
-* The mean of the random sample of normal distribution is `r mean(pull(df_2, norm_sample))`.
+* The mean of the random sample of normal distribution is `r mean(pull(df_problem_2, norm_sample))`.
 
-* The mean of the logical vector is `r mean(pull(df_2, norm_sample_pos))`. However, this is just interpreting a binary variable so it is not a true mean.
+* The mean of the logical vector is `r mean(pull(df_problem_2, norm_sample_pos))`. However, this is just interpreting a binary variable so it is not a true mean.
 
-* The mean of the character vector is NA when attempted via `r mean(pull(df_2, char))`.
+* The mean of the character vector is NA when attempted via `r mean(pull(df_problem_2, char))`.
 
-* The mean of the factor vector is NA when attempted via `r mean(pull(df_2, factor))`.
+* The mean of the factor vector is NA when attempted via `r mean(pull(df_problem_2, factor))`.
 
 
 ## Changing data type
 
 ```{r conversion, warning = FALSE}
-df_2$norm_sample_pos = as.numeric(pull(df_2, norm_sample_pos))
+df_problem_2[["norm_sample_pos"]] = as.numeric(pull(df_problem_2, norm_sample_pos))
 
-df_2$char = as.numeric(pull(df_2, char))
+df_problem_2[["char"]] = as.numeric(pull(df_problem_2, char))
 
-df_2$factor =  as.numeric(pull(df_2, factor))
+df_problem_2[["factor"]] =  as.numeric(pull(df_problem_2, factor))
 ```
 
 When we try to convert the binary logical vector into a numeric one it is able and changes from binary to numeric, but all the values are either zero or one. 
